@@ -166,3 +166,16 @@ To handle this, we need to use a different set method
 To retrieve values
 
 `hget('spanish', 'red', (err, data) => console.log(data)`
+
+```bash
+> client.hset('German', 'red', 'rot')
+true
+> client.hget('German', 'red', (err,data) => console.log(data))
+true
+> rot
+> client.hset('German', 'blue', 'blau')
+true
+> client.hget('German', 'blue', console.log)
+true
+> null blau
+```
