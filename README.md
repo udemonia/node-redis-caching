@@ -179,3 +179,29 @@ true
 true
 > null blau
 ```
+
+## Redis Gotcha
+
+We can only store numbers and letters - we can't store a plain JavaScript object within redis...
+
+Redis will convert a JS object into [object Object] or error out...
+
+To get around this, we have to stringify objects....
+
+```bash
+> client.set('JS-Object', {this: 'is an object'})
+Uncaught Error: node_redis: The SET command contains a invalid argument type.
+Only strings, dates and buffers are accepted. Please update your code to use valid argument types.
+    at RedisClient.internal_send_command (/Users/brandonlambert/dev/javaScript/node/redis-node/node_modules/redis/index.js:835:39)
+    at RedisClient.set (/Users/brandonlambert/dev/javaScript/node/redis-node/node_modules/redis/lib/commands.js:46:25) {
+  command: 'SET',
+  args: [ 'JS-Object', { this: 'is an object' } ]
+}
+> client.set('JS-Object', JSON.stringify({red: 'rojo'}))
+true
+> client.get('JS-Object')
+true
+> client.get('JS-Object', (err,data) => console.log(data))
+true
+> {"red":"rojo"}
+```
