@@ -205,3 +205,11 @@ true
 true
 > {"red":"rojo"}
 ```
+
+We can also call JSON.parse on the string coming back - to turn it into an object again :)
+
+```bash
+> client.get('JS-Object', (err,data) => console.log(JSON.parse(data)))
+true
+> { red: 'rojo' }
+```
