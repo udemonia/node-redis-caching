@@ -98,3 +98,71 @@ Redis setex takes three arguments
 We can call client.get and pass the username and a callback
 
 If there is data, we will respond with it - otherwise, we will pass the request over to route for the axios networking i/o call.
+
+### Ping Pong w/ Redis
+
+```bash
+ udemonia@root: ~/dev/javaScript/node/redis-node [git:master]
+🤓 $redis-cli ping
+PONG
+
+```
+
+## How does Redis work?
+
+Similar to a JavaScript object - its a key/value in memory store
+
+### set
+
+set or setex
+
+### Get
+
+get - is an async operation, we need to pass a callback function.
+
+### Redis REPL
+
+```bash
+ udemonia@root: ~/dev/javaScript/node/redis-node [git:master]
+🪐 $node
+Welcome to Node.js v16.11.1.
+Type ".help" for more information.
+> const redis = require('redis')
+undefined
+> const redisURL = 'redis://127.0.0.1:6379'
+undefined
+> const client = redis.createClient(redisURL)
+undefined
+> client.set('Hi', 'There')
+true
+> client.get('Hi', (err, data) => {
+... if (err) throw err;
+... console.log(data)
+... }
+... )
+true
+> There
+> client.get('Hi', console.log)
+true
+> null There
+```
+
+### Nested Key/Value Pairs
+
+We can also nest key/value pairs, where the value for a key is itself a key for another value.
+
+![alt text](./diagrams/NestedHash.png)
+
+To handle this, we need to use a different set method
+
+`hset('spanish', 'red', 'rojo')`
+
+- the master key (overall key)
+
+- red is modifying that value
+
+- the value inside of the nested hash
+
+To retrieve values
+
+`hget('spanish', 'red', (err, data) => console.log(data)`
